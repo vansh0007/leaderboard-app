@@ -47,10 +47,13 @@ php artisan migrate --seed
 # Start development server
 php artisan serve
 ```
+```
+Base URL: http://localhost:8000/api
+```
 
 ### Frontend Setup
 ```bash
-cd resources/js
+cd leaderboard-frontend
 
 # Install dependencies
 npm install
@@ -69,18 +72,48 @@ Add to crontab:
 ```bash
 * * * * * cd /path-to-project && php artisan schedule:run >> /dev/null 2>&1
 ```
-
 ## API Endpoints
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/users` | GET | List all users |
-| `/api/winners` | GET | List all winners |
-| `/api/users/{id}/points` | PATCH | Update user points |
 
-## Testing
+### User Management
+
+| Method | Endpoint                      | Description                          | Request Body                                                                 |
+|--------|-------------------------------|--------------------------------------|------------------------------------------------------------------------------|
+| GET    | `/api/users`                  | Get all users                        | -                                                                           |
+| POST   | `/api/users`                  | Create new user                      | `{"name":"string", "age":int, "address":"string"}`                          |
+| PATCH  | `/api/users/{id}/points`      | Update user points                   | `{"operation":"increment"}` or `{"operation":"decrement"}`                  |
+| DELETE | `/api/users/{id}`             | Delete user                          | -                                                                           |
+| GET    | `/api/users/grouped-by-score` | Get users grouped by score           | -                                                                           |
+
+### Winners
+
+| Method | Endpoint               | Description                          |
+|--------|------------------------|--------------------------------------|
+| GET    | `/api/winners`         | List all historical winners         |
+| GET    | `/api/winners/stats`   | Get winner statistics (wins, highscores) |
+
+### Debug Endpoints
+
+| Method | Endpoint                     | Description                          |
+|--------|------------------------------|--------------------------------------|
+| POST   | `/api/generate-qr/{user_id}` | Manually generate QR code for user  |
+| POST   | `/api/jobs/determine-winner` | Manually trigger winner determination |
+
+---
+
+## Example Requests
+
+### Create User
 ```bash
-php artisan test
-```
+curl -X POST http://localhost:8000/api/users \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Emma", "age":28, "address":"123 Main St"}'
+
+
+
+
+- **Port**: Runs on `http://localhost:3000` by default (Create React App)
+- **Proxy**: API requests are forwarded to `http://localhost:8000` (Laravel backend)
+
 
 ## Deployment
 For production deployment:
