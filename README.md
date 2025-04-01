@@ -129,3 +129,7 @@ php artisan optimize
 - If jobs aren't running: `php artisan queue:work`
 - If scheduler fails: check cron service status
 - If QR codes fail: check storage permissions
+
+
+
+![Leaderboard](https://i.postimg.cc/VL6fvqc0/Screenshot-2025-03-31-at-7-16-01-PM.png)
